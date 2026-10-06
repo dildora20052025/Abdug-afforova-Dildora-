@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qiya tekislik — 10-sinf fizika</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
+header{background:linear-gradient(135deg,#244b8f,#4d79c7);color:white;padding:28px 18px;text-align:center}
+header h1{margin:0 0 10px;font-size:clamp(24px,4vw,38px)} header p{margin:0;font-size:17px}
+main{max-width:1100px;margin:auto;padding:18px}.card{background:white;border-radius:18px;padding:22px;margin:16px 0;box-shadow:0 5px 18px #00000012}
+h2{color:#244b8f;margin-top:0} h3{color:#355b9c}
+.formula{background:#eef4ff;border-left:5px solid #3566ad;padding:13px;margin:10px 0;font-size:20px;font-weight:bold;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.control{background:#f7f9fc;padding:14px;border-radius:12px}.control label{display:flex;justify-content:space-between;font-weight:bold}
+input[type=range]{width:100%}.value{color:#244b8f}.result{font-size:18px;padding:8px 0}
+button{border:0;border-radius:10px;padding:11px 18px;background:#315fa8;color:#fff;font-weight:bold;cursor:pointer;margin:5px}button.secondary{background:#68778f}
+#scene{width:100%;height:360px;border:1px solid #d8dfeb;border-radius:14px;background:#f9fbff}
+canvas{display:block}.bar{height:24px;background:#e6eaf0;border-radius:20px;overflow:hidden}.fill{height:100%;width:0;background:#4b7ac4;transition:.3s}
+table{width:100%;border-collapse:collapse;margin-top:12px}th,td{border:1px solid #d8dfeb;padding:8px;text-align:center}th{background:#eef4ff}
+.question{padding:14px;background:#f7f9fc;border-radius:12px;margin:12px 0}.feedback{font-weight:bold}
+footer{text-align:center;color:#64748b;padding:25px}
+.small{color:#5d6b80;font-size:14px}
+</style>
+</head>
+<body>
+<header>
+<h1>Jismni qiya tekislik bo‘ylab ko‘chirishda bajarilgan ish</h1>
+<p>Qiya tekislikning foydali ish koeffitsiyenti — 10-sinf fizika uchun interaktiv dars</p>
+</header>
+<main>
+<section class="card">
+<h2>Dars maqsadi</h2>
+<p>Qiya tekislikda jismga ta’sir qiluvchi kuchlarni, bajarilgan mexanik ishni, foydali va sarflangan ishni hamda foydali ish koeffitsiyentini tajriba va hisoblash orqali o‘rganish.</p>
+</section>
+
+<section class="card">
+<h2>1. Jismni qiya tekislik bo‘ylab ko‘chirishda bajarilgan ish</h2>
+<p><b>Qiya tekislik</b> — jismni ma’lum balandlikka ko‘tarishni yengillashtiruvchi sodda mexanizm. Uning uzunligi <b>l</b>, balandligi <b>h</b>, qiyalik burchagi <b>α</b> bilan belgilanadi.</p>
+<p>Mexanik ish kuch ta’sirida jism ko‘chirilganda bajariladi:</p>
+<div class="formula">A = F · s · cos β</div>
+<p>Qiya tekislik bo‘ylab kuch ham, ko‘chish ham bir yo‘nalishda bo‘lsa, β = 0° va:</p>
+<div class="formula">A = F · l</div>
+<p>Ishqalanish hisobga olinmasa, qiya tekislik bo‘ylab jismni tekis tezlikda yuqoriga tortish uchun:</p>
+<div class="formula">F = mg sin α</div>
+<p>Geometrik bog‘lanish:</p>
+<div class="formula">h = l sin α</div>
+<p>Shuning uchun ideal holatda:</p>
+<div class="formula">A = F·l = mg sin α · l = mgh</div>
+<p>Demak, ideal qiya tekislikda yo‘l uzunroq bo‘lsa ham, bajarilgan ish jismni h balandlikka ko‘tarish uchun zarur bo‘lgan ishga teng.</p>
+<h3>Asosiy kuchlar</h3>
+<ul>
+<li><b>mg</b> — og‘irlik kuchi, vertikal pastga yo‘nalgan.</li>
+<li><b>N</b> — tayanch reaksiya kuchi, sirtga perpendikulyar.</li>
+<li><b>F</b> — jismni yuqoriga tortuvchi kuch.</li>
+<li><b>F<sub>ishq</sub></b> — ishqalanish kuchi, harakatga qarshi yo‘naladi.</li>
+</ul>
+</section>
+
+<section class="card">
+<h2>Interaktiv simulyatsiya 1</h2>
+<p>Parametrlarni o‘zgartiring va jismning qiya tekislik bo‘ylab harakatini kuzating.</p>
+<div class="grid">
+<div class="control"><label>m, kg <span id="mv" class="value">5</span></label><input id="m" type="range" min="1" max="20" value="5"></div>
+<div class="control"><label>l, m <span id="lv" class="value">5</span></label><input id="l" type="range" min="1" max="10" step=".1" value="5"></div>
+<div class="control"><label>h, m <span id="hv" class="value">2</span></label><input id="h" type="range" min=".5" max="8" step=".1" value="2"></div>
+<div class="control"><label>μ <span id="muv" class="value">0.10</span></label><input id="mu" type="range" min="0" max=".5" step=".01" value=".10"></div>
+</div>
+<canvas id="scene" width="1000" height="360"></canvas>
+<div class="grid">
+<div class="result">α = <b id="angle">0°</b></div>
+<div class="result">F (ishqalanishsiz) = <b id="force">0 N</b></div>
+<div class="result">F<sub>ishq</sub> = <b id="fric">0 N</b></div>
+<div class="result">F (tekis tezlikda) = <b id="pull">0 N</b></div>
+<div class="result">A = <b id="work">0 J</b></div>
+</div>
+<button id="start">▶ START</button><button id="pause" class="secondary">Ⅱ PAUSE</button><button id="reset" class="secondary">↻ RESET</button>
+<p class="small">Modelda g = 10 m/s² deb olingan. Ishqalanishli holatda tekis tezlik bilan tortish uchun F = mg(sin α + μ cos α).</p>
+</section>
+
+<section class="card">
+<h2>2. Qiya tekislikning foydali ish koeffitsiyenti</h2>
+<p><b>Foydali ish</b> — jismni kerakli balandlikka ko‘tarishga sarflangan ish:</p>
+<div class="formula">A<sub>f</sub> = mgh</div>
+<p><b>Sarflangan ish</b> — jismni qiya tekislik bo‘ylab tortishda bajarilgan ish:</p>
+<div class="formula">A<sub>s</sub> = F·l</div>
+<p>Qiya tekislikning foydali ish koeffitsiyenti:</p>
+<div class="formula">η = (A<sub>f</sub> / A<sub>s</sub>) · 100%</div>
+<p>Haqiqiy qurilmalarda ishqalanish sababli η odatda 100% dan kichik bo‘ladi. Ideal, ishqalanishsiz holatda η = 100%.</p>
+</section>
+
+<section class="card">
+<h2>Interaktiv simulyatsiya 2 — FIK</h2>
+<div class="grid">
+<div class="control"><label>m, kg <span id="m2v">10</span></label><input id="m2" type="range" min="1" max="20" value="10"></div>
+<div class="control"><label>h, m <span id="h2v">2</span></label><input id="h2" type="range" min=".5" max="8" step=".1" value="2"></div>
+<div class="control"><label>l, m <span id="l2v">5</span></label><input id="l2" type="range" min="1" max="10" step=".1" value="5"></div>
+<div class="control"><label>F, N <span id="F2v">25</span></label><input id="F2" type="range" min="5" max="300" value="25"></div>
+</div>
+<div class="grid">
+<div class="result">A<sub>f</sub> = <b id="af">0 J</b></div>
+<div class="result">A<sub>s</sub> = <b id="as">0 J</b></div>
+<div class="result">η = <b id="eta">0%</b></div>
+</div>
+<div class="bar"><div class="fill" id="fill"></div></div>
+<p id="etatext"><b>FIK indikatori</b></p>
+</section>
+
+<section class="card">
+<h2>Virtual laboratoriya</h2>
+<p>Quyidagi qiymatlar asosida tajriba natijasini hisoblang va jadvalga qo‘shing.</p>
+<button onclick="addExperiment()">Hisoblash va jadvalga qo‘shish</button>
+<button class="secondary" onclick="clearTable()">Jadvalni tozalash</button>
+<table><thead><tr><th>№</th><th>m (kg)</th><th>h (m)</th><th>l (m)</th><th>F (N)</th><th>A<sub>f</sub> (J)</th><th>A<sub>s</sub> (J)</th><th>η (%)</th></tr></thead><tbody id="lab"></tbody></table>
+</section>
+
+<section class="card">
+<h2>Namunaviy masalalar</h2>
+<h3>1-masala</h3>
+<p>m = 5 kg, h = 2 m. Jismni shu balandlikka ko‘tarishda foydali ishni toping.</p>
+<div class="formula">A<sub>f</sub> = mgh = 5 · 10 · 2 = <b>100 J</b></div>
+<h3>2-masala</h3>
+<p>m = 10 kg, h = 3 m, l = 5 m, F = 70 N. Foydali ish, sarflangan ish va FIKni toping.</p>
+<div class="formula">A<sub>f</sub> = 300 J; &nbsp; A<sub>s</sub> = 350 J; &nbsp; η ≈ <b>85,7%</b></div>
+<h3>3-masala</h3>
+<p>m = 8 kg, h = 2 m, l = 4 m, F = 50 N.</p>
+<div class="formula">A<sub>f</sub> = 160 J; &nbsp; A<sub>s</sub> = 200 J; &nbsp; η = <b>80%</b></div>
+</section>
+
+<section class="card">
+<h2>10 ta nazorat testi</h2>
+<div id="quiz"></div>
+<button onclick="checkQuiz()">Testni tekshirish</button>
+<p id="score" class="feedback"></p>
+</section>
+
+<section class="card">
+<h2>Xulosa</h2>
+<ul>
+<li>Qiya tekislik jismni balandlikka kichikroq kuch bilan ko‘tarishga yordam beradi.</li>
+<li>Ideal holatda F·l = mgh.</li>
+<li>Ishqalanish mavjud bo‘lsa, qo‘shimcha ish sarflanadi.</li>
+<li>FIK qurilmaning samaradorligini ko‘rsatadi.</li>
+<li>Haqiqiy qiya tekisliklarda η &lt; 100%.</li>
+<li>Kuchdan yutilganda yo‘ldan yutqaziladi.</li>
+</ul>
+</section>
+</main>
+<footer>10-sinf fizika • Qiya tekislik • Interaktiv o‘quv materiali</footer>
+
+<script>
+const $=id=>document.getElementById(id), g=10;
+const ids=['m','l','h','mu','m2','h2','l2','F2'];
+ids.forEach(id=>$(id).addEventListener('input',update));
+let timer=null,pos=0;
+
+function update(){
+ let m=+$('m').value,l=+$('l').value,h=Math.min(+$('h').value,l),mu=+$('mu').value;
+ $('mv').textContent=m;$('lv').textContent=l;$('hv').textContent=h.toFixed(1);$('muv').textContent=mu.toFixed(2);
+ let a=Math.asin(h/l), deg=a*180/Math.PI;
+ let F=m*g*Math.sin(a), N=m*g*Math.cos(a), fi=mu*N, pull=F+fi, work=pull*l;
+ $('angle').textContent=deg.toFixed(1)+'°';$('force').textContent=F.toFixed(1)+' N';$('fric').textContent=fi.toFixed(1)+' N';$('pull').textContent=pull.toFixed(1)+' N';$('work').textContent=work.toFixed(1)+' J';
+ draw(a,h/l,pos);
+ let m2=+$('m2').value,h2=+$('h2').value,l2=+$('l2').value,F2=+$('F2').value;
+ $('m2v').textContent=m2;$('h2v').textContent=h2.toFixed(1);$('l2v').textContent=l2.toFixed(1);$('F2v').textContent=F2;
+ let af=m2*g*h2, as=F2*l2, eta=as>0?100*af/as:0;
+ $('af').textContent=af.toFixed(1)+' J';$('as').textContent=as.toFixed(1)+' J';$('eta').textContent=eta.toFixed(1)+'%';
+ $('fill').style.width=Math.max(0,Math.min(100,eta))+'%';
+ $('etatext').innerHTML='<b>FIK: '+eta.toFixed(1)+'%</b> — '+(eta<50?'past samaradorlik':eta<80?'o‘rtacha samaradorlik':eta<=100?'yuqori samaradorlik':'hisoblashda A<sub>s</sub> qiymatini tekshiring');
+}
+function draw(a,ratio,p){
+ const c=$('scene'),x=c.getContext('2d'),w=c.width,h=c.height;x.clearRect(0,0,w,h);
+ let x0=90,y0=285,x1=850,y1=285-190*ratio/(Math.max(ratio,.4)); y1=Math.max(55,y1);
+ x.lineWidth=10;x.beginPath();x.moveTo(x0,y0);x.lineTo(x1,y1);x.strokeStyle='#7891b5';x.stroke();
+ x.lineWidth=2;x.strokeStyle='#25344f';x.beginPath();x.moveTo(x0,y0);x.lineTo(x1,y1);x.lineTo(x1,y0);x.closePath();x.stroke();
+ x.fillStyle='#172033';x.font='18px Arial';x.fillText('l',470,245);x.fillText('h',865,180);x.fillText('α',130,270);
+ let t=Math.min(1,Math.max(0,p));let bx=x0+(x1-x0)*t,by=y0+(y1-y0)*t;
+ x.save();x.translate(bx,by-15);x.rotate(-a);x.fillStyle='#e0a52d';x.fillRect(-25,-25,50,35);x.restore();
+ function arrow(x1,y1,x2,y2,label){x.strokeStyle='#bd3d3d';x.fillStyle='#bd3d3d';x.lineWidth=3;x.beginPath();x.moveTo(x1,y1);x.lineTo(x2,y2);x.stroke();let ang=Math.atan2(y2-y1,x2-x1);x.beginPath();x.moveTo(x2,y2);x.lineTo(x2-12*Math.cos(ang-.5),y2-12*Math.sin(ang-.5));x.lineTo(x2-12*Math.cos(ang+.5),y2-12*Math.sin(ang+.5));x.closePath();x.fill();x.font='16px Arial';x.fillText(label,x2+5,y2);}
+ arrow(bx,by-15,bx+70*Math.cos(a),by-15-70*Math.sin(a),'F');
+ arrow(bx,by-15,bx,by+65,'mg');
+}
+$('start').onclick=()=>{if(timer)return;timer=setInterval(()=>{pos+=.008;if(pos>1)pos=0;update()},30)};
+$('pause').onclick=()=>{clearInterval(timer);timer=null};
+$('reset').onclick=()=>{clearInterval(timer);timer=null;pos=0;update()};
+
+let n=0;
+function addExperiment(){
+ n++;let m=+$('m2').value,h=+$('h2').value,l=+$('l2').value,F=+$('F2').value,af=m*g*h,as=F*l,eta=100*af/as;
+ $('lab').insertAdjacentHTML('beforeend',`<tr><td>${n}</td><td>${m}</td><td>${h}</td><td>${l}</td><td>${F}</td><td>${af.toFixed(1)}</td><td>${as.toFixed(1)}</td><td>${eta.toFixed(1)}</td></tr>`);
+}
+function clearTable(){n=0;$('lab').innerHTML=''}
+
+const qs=[
+['Mexanik ish formulasi qaysi?',['A=F·l','A=m/g','F=ma','η=A'],0],
+['Qiya tekislikda h nimani bildiradi?',['Kuchni','Balandlikni','Massani','Ishqalanishni'],1],
+['Ideal holatda foydali ish qaysi?',['Fl','mgh','mg','μN'],1],
+['Ishqalanish kuchi qaysi tomonga yo‘naladi?',['Harakat yo‘nalishida','Harakatga qarshi','Vertikal yuqoriga','Har doim pastga'],1],
+['FIK formulasi qaysi?',['As/Af·100%','Af/As·100%','F/m·100%','mgh·Fl'],1],
+['Ideal qiya tekislikning FIKi nechaga teng?',['0%','50%','100%','200%'],2],
+['h=l sin α formulasi nimani ifodalaydi?',['Geometrik bog‘lanishni','FIKni','Ishqalanishni','Massani'],0],
+['Ishqalanish bo‘lsa FIK odatda qanday bo‘ladi?',['100% dan kichik','100% dan katta','0 dan kichik','Doim 100%'],0],
+['m=10 kg, h=2 m, g=10 bo‘lsa Af nechaga teng?',['20 J','100 J','200 J','500 J'],2],
+['Af=200 J, As=250 J bo‘lsa η nechaga teng?',['60%','70%','80%','90%'],2]
+];
+$('quiz').innerHTML=qs.map((q,i)=>`<div class="question"><b>${i+1}. ${q[0]}</b>${q[1].map((a,j)=>`<label style="display:block;margin:8px"><input type="radio" name="q${i}" value="${j}"> ${a}</label>`).join('')}<span id="fb${i}"></span></div>`).join('');
+function checkQuiz(){let score=0;qs.forEach((q,i)=>{let a=document.querySelector(`input[name=q${i}]:checked`),f=$('fb'+i);if(a&&+a.value===q[2]){score++;f.textContent=' ✓ To‘g‘ri';f.style.color='green'}else{f.textContent=' ✗ To‘g‘ri javob: '+q[1][q[2]];f.style.color='#b33'}});$('score').textContent='Natija: '+score+' / 10 ta to‘g‘ri.'}
+update();
+</script>
+</body>
+</html>
