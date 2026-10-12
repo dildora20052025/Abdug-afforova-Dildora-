@@ -148,4 +148,154 @@
                     { id: 41, title: "39-mavzu. Faradeyning birinchi va ikkinchi qonuni", plans: ["Elektroliz", "Faradey qonunlari"], theory: "Elektrodda ajralgan modda massasi zaryadga proporsional.", formula: "m = kIt = \\frac{1}{F}\\frac{M}{z}It", example: "Mis bilan qoplash.", simType: "faraday" },
                     { id: 42, title: "40-mavzu. Masalalar yechish", plans: ["Elektroliz massasini topish"], theory: "Faradey qonunlari bo'yicha masalalar.", formula: "m = kq", example: "Xromlash zavodi.", simType: "problem" },
                     { id: 43, title: "41-mavzu. Elektrolizdan turmushda va texnikada foydalanish", plans: ["Galvanostegiya", "Metallarni tozalash"], theory: "Sanoatda elektrolizning qo'llanilishi.", formula: "W = UIt", example: "Tanga yasash.", simType: "tech" },
+                    { id: 44, title: "42-mavzu. Gazlarda elektr toki. Vakuumda elektr toki", <!DOCTYPE html>
+<html lang="uz" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10-Sinf Fizika - Interaktiv Elektron Darslik</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { primary: '#3b82f6' }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.5); border-radius: 3px; }
+    </style>
+</head>
+<body class="h-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-200">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-80 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out flex flex-col">
+            <div class="p-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-blue-600 text-white p-2 rounded-lg font-bold text-xl">⚡</div>
+                    <div>
+                        <h1 class="font-bold text-lg leading-tight">Fizika 10-Sinf</h1>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Interaktiv Elektron Darslik</p>
+                    </div>
+                </div>
+                <button onclick="toggleSidebar()" class="lg:hidden text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">✕</button>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="p-3 border-b border-slate-200 dark:border-slate-700">
+                <input type="text" id="searchInput" placeholder="Mavzu qidirish..." onkeyup="filterTopics()" class="w-full px-3 py-2 bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Topic List -->
+            <div id="topicList" class="flex-1 overflow-y-auto custom-scrollbar p-3 space-y-4"></div>
+
+            <!-- Dark Mode Toggle -->
+            <div class="p-3 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                <span class="text-sm font-medium">Tungi rejim</span>
+                <button onclick="toggleDarkMode()" class="px-3 py-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg text-sm font-medium hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors">
+                    <span id="darkModeIcon">🌙</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col lg:pl-80 h-full overflow-hidden">
+            <header class="h-16 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between px-4 z-40 shrink-0">
+                <div class="flex items-center space-x-3">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg">☰</button>
+                    <h2 id="currentChapterTitle" class="text-sm sm:text-base font-semibold text-slate-600 dark:text-slate-300 truncate">I BOB. DINAMIKA. STATIKA ELEMENTLARI</h2>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="prevTopic()" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-sm font-medium rounded-lg transition">← Oldingi</button>
+                    <button onclick="nextTopic()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition">Keyingi →</button>
+                </div>
+            </header>
+
+            <main id="mainContent" class="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-8"></main>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script>
+        const curriculum = [
+            {
+                chapter: "I BOB. DINAMIKA. STATIKA ELEMENTLARI",
+                topics: [
+                    { id: 1, title: "1-mavzu. Kuchlarni qo'shish", plans: ["Kuch vektor kattalik sifatida", "Superpozitsiya prinsipi", "Kolleniar va burchak ostida kuchlarni qo'shish"], theory: "Kuch — jismga boshqa jismlar tomonidan ta'sir ko'rsatish natijasida uning tezligi o'zgarishi yoki deformatsiyalanishiga sabab bo'luvchi vektor kattalik. Jismga bir nechta kuch ta'sir etganda, ularning teng ta'sir etuvchi kuchi barcha kuchlarning geometrik yig'indisiga teng.", formula: "R = \\sqrt{F_1^2 + F_2^2 + 2F_1F_2\\cos\\alpha}", example: "Ikki kishi arqonni bitta tomonga 30 N va 40 N kuch bilan tortsa, umumiy kuch 70 N bo'ladi.", simType: "forces" },
+                    { id: 2, title: "2-mavzu. Markazga intilma kuch", plans: ["Egri chiziqli harakat", "Markazga intilma tezlanish", "Kanal va traektoriya radiusiga bog'liqlik"], theory: "Jism egri chiziq bo'ylab harakatlanganda tezlik yo'nalishi o'zgarib turadi, bu ezdan markazga intilma tezlanishni hosil qiladi. Nyutonning ikkinchi qonuniga ko'ra bu tezlanishni markazga intilma kuch ta'minlaydi.", formula: "F_m = \\frac{mv^2}{r} = m\\omega^2r", example: "Burilishda ketayotgan avtomobilning g'ildiragi va yo'l orasidagi ishqalanish kuchi.", simType: "centripetal" },
+                    { id: 3, title: "3-mavzu. Gravitatsiya maydonidagi harakat", plans: ["Umumiy tortishish qonuni", "Gravitatsiya doimiysi", "Kosmik tezliklar va Yer atrofida harakat"], theory: "Tabiatdagi barcha jismlar massalariga proporsional, orasidagi masofaning kvadratiga teskari proporsional kuch bilan tortishadi.", formula: "F = G \\frac{m_1 m_2}{r^2}, \\quad G = 6.67 \\cdot 10^{-11}", example: "Oyning Yer atrofida orbitada aylanishi.", simType: "gravity" },
+                    { id: 4, title: "4-mavzu. Masalalar yechish", plans: ["Dinamika asosiy qonunlarini qo'llash", "Proyeksiyalash usullari"], theory: "Dinamika masalalarini yechishda barcha kuchlar chizilib, koordinatalar o'qiga proyeksiyalanadi.", formula: "ma_x = \\sum F_ix", example: "Poyezdning tormozlanish masofasini hisoblash.", simType: "problem" },
+                    { id: 5, title: "5-mavzu. Jism og'irligining harakat turiga bog'liqligi", plans: ["Og'irlik kuchi va vazn farqi", "Tezlanishli harakatda vazn o'zgarishi", "Vaznsizlik va ortiqcha yuklanish"], theory: "Jismning tayanchga ko'rsatgan bosim kuchi uning og'irligi deyiladi. Tezlanish bilan harakatlanganda vazn o'zgaradi.", formula: "P = m(g \\pm a)", example: "Lift yuqoriga tezlanish bilan ko'tarilganda vaznning ortishi.", simType: "weight" },
+                    { id: 6, title: "6-mavzu. Jismning bir nechta kuch ta'siridagi harakati", plans: ["To'la kuchlar sistemasi", "Ishqalanish va tortish kuchi"], theory: "Real jismga bir vaqtning o'zida og'irlik, reaksiya, ishqalanish va tortish kuchlari ta'sir qiladi.", formula: "F_{tort} - F_{ishq} = ma", example: "Avtomobilning tekis tezlanuvchan harakati.", simType: "multiforce" },
+                    { id: 7, title: "7-mavzu. Masalalar yechish", plans: ["Bog'langan jismlar tizimi", "Bloklar dinamikasi"], theory: "Ip va bloklar orqali bog'langan jismlar harakatini birgalikdagi tenglamalar orqali yechish.", formula: "a = \\frac{(m_2-m_1)g}{m_1+m_2}", example: "Yuk ko'tarish mexanizmlari.", simType: "problem" },
+                    { id: 8, title: "8-mavzu. Jismning qiya tekislikdagi harakati", plans: ["Qiya tekislik geometriyasi", "Kuchlarni proyeksiyalash"], theory: "Gorizontga burchak ostidagi tekislikda jismning harakat tezlanishi og'irlik kuchi tashkil etuvchisiga bog'liq.", formula: "a = g(\\sin\\alpha - \\mu\\cos\\alpha)", example: "Taxta yordamida bochka tushirish.", simType: "inclined" },
+                    { id: 9, title: "9-mavzu. Jismni qiya tekislik bo'ylab ko'chirishda bajarilgan ish. Qiya tekislikning foydali ish koeffitsiyenti (FIKI)", plans: ["Mexanik ish va FIK", "Foydali va to'la ish"], theory: "Qiya tekislik kuchdan yutuq bersada, ishda yo'qotishlar bo'ladi. FIK foydali ishning to'la ishga nisbatidir.", formula: "\\eta = \\frac{A_{foy}}{A_{tol}} \\cdot 100\\%", example: "Pushta yordamida og'ir yukni ko'tarish.", simType: "efficiency" },
+                    { id: 10, title: "10-mavzu. Masalalar yechish", plans: ["FIK va ish hisoblari"], theory: "Qiya tekislikka doir masalalarni tahlil qilish.", formula: "A = mgh", example: "Zavod konveyerlari samaradorligi.", simType: "problem" },
+                    { id: 11, title: "11-mavzu. Laboratoriya ishi. Qiya tekislikning FIKini aniqlash", plans: ["Tajriba jihozlari", "O'lchash va xatoliklar"], theory: "Dinamometr va tarozidan foydalanib qiya tekislik FIKini eksperimental aniqlash.", formula: "\\eta = \\frac{mgh}{Fl} \\cdot 100\\%", example: "Laboratoriya mashg'uloti.", simType: "lab" },
+                    { id: 12, title: "12-mavzu. Massa markazi. Muvozanat turlari. Kuch momenti", plans: ["Og'irlik markazi", "Barqaror va beqaror muvozanat", "Kuch momenti"], theory: "Jismning og'irlik markazi va kuchning yelkaga ko'paytmasi momentni hosil qiladi.", formula: "M = F \\cdot l", example: "Piyodaning xoda yordamida muvozanat saqlashi.", simType: "moment" },
+                    { id: 13, title: "13-mavzu. Momentlar qoidasiga asoslanib ishlaydigan oddiy mexanizmlar", plans: ["Richag va bloklar", "Momentlar qoidasi"], theory: "Richag muvozanatda bo'lishi uchun kuch momentlari yig'indisi nolga teng bo'lishi kerak.", formula: "F_1 l_1 = F_2 l_2", example: "Qaychi va ombir ishlashi.", simType: "lever" },
+                    { id: 14, title: "14-mavzu. Masalalar yechish", plans: ["Richag muvozanati masalalari"], theory: "Kuch momentlarini hisoblashga oid masalalar.", formula: "\\sum M_i = 0", example: "Domkrat yordamida yuk ko'tarish.", simType: "problem" },
+                    { id: 15, title: "Loyiha ishi: Oddiy mexanizmlarni yasash", plans: ["Loyiha maqsadi", "Model yasash"], theory: "Oddiy mexanizmlar maketini tayyorlash va sinovdan o'tkazish.", formula: "K = \\frac{F_{chiq}}{F_{kir}}", example: "Kartondan richag modeli.", simType: "project" }
+                ]
+            },
+            {
+                chapter: "II BOB. MEXANIK TEBRANISHLAR VA TO'LQINLAR",
+                topics: [
+                    { id: 16, title: "15-mavzu. Mexanik tebranishlar", plans: ["Tebranish tushunchasi", "Davr, chastota, amplituda", "Garmonik tebranish"], theory: "Muvozanat holati atrofida takrorlanib turuvchi harakat tebranish deyiladi.", formula: "x(t) = A\\cos(\\omega t + \\varphi_0)", example: "Soat mayatnigi tebranishi.", simType: "oscillation" },
+                    { id: 17, title: "16-mavzu. Prujinali va matematik mayatniklar", plans: ["Prujinali mayatnik", "Matematik mayatnik davri"], theory: "Osilgan yuk va ipdan iborat mayatniklar tebranish davrlari.", formula: "T = 2\\pi\\sqrt{\\frac{m}{k}}, \\quad T = 2\\pi\\sqrt{\\frac{l}{g}}", example: "Devor soati mayatnigi.", simType: "pendulum" },
+                    { id: 18, title: "17-mavzu. Laboratoriya ishi. Matematik mayatnik yordamida erkin tushish tezlanishini aniqlash", plans: ["Tajriba o'tkazish", "g ni hisoblash"], theory: "Mayatnik tebranish davridan foydalanib erkin tushish tezlanishini topish.", formula: "g = 4\\pi^2 \\frac{l}{T^2}", example: "Laboratoriya o'lchashlari.", simType: "lab" },
+                    { id: 19, title: "18-mavzu. Mexanik to'lqinlar", plans: ["To'lqin turlari", "To'lqin uzunligi va tezlik"], theory: "Tebranishlarning muhit bo'ylab tarqalish jarayoni to'lqin deyiladi.", formula: "\\lambda = vT = \\frac{v}{\\nu}", example: "Suv yuzasidagi to'lqinlar.", simType: "waves" },
+                    { id: 20, title: "19-mavzu. Tovush to'lqinlari", plans: ["Akustik diapazon", "Tovush balandligi va tembri"], theory: "Inson qulog'i sezadigan mexanik to'lqinlar diapazoni.", formula: "v = \\sqrt{\\frac{E}{\\rho}}", example: "Musiqa asboblari tovushi.", simType: "sound" },
+                    { id: 21, title: "20-mavzu. Masalalar yechish", plans: ["Tebranish va to'lqin masalalari"], theory: "Davr va chastotaga oid masalalar.", formula: "\\nu = \\frac{1}{T}", example: "Radio to'lqinlari hisoblari.", simType: "problem" }
+                ]
+            },
+            {
+                chapter: "III BOB. GIDRODINAMIKA VA AERODINAMIKA",
+                topics: [
+                    { id: 22, title: "21-mavzu. Suyuqlik va gazlar harakati", plans: ["Ideal suyuqlik", "Uzluksizlik qonuni"], theory: "Suyuqlik oqimi nayining turli kesimlarida tezlik kesim yuzasiga teskari proporsional.", formula: "S_1 v_1 = S_2 v_2", example: "Suv shlangini qisish.", simType: "hydro" },
+                    { id: 23, title: "22-mavzu. Harakatlanayotgan gaz va suyuqlik bosimining tezlikka bog'liqligidan texnikada foydalanish", plans: ["Bernulli qonuni", "Aerodinamik ko'tarish kuchi"], theory: "Tezlik katta joyda bosim kichik bo'ladi.", formula: "p + \\frac{\\rho v^2}{2} = \\text{const}", example: "Samolyot qanotining ko'tarilishi.", simType: "bernoulli" },
+                    { id: 24, title: "23-mavzu. Masalalar yechish", plans: ["Bernulli qonuni masalalari"], theory: "Gidrodinamik hisob-kitoblar.", formula: "v = \\sqrt{2gh}", example: "Suv minorasi bosimi.", simType: "problem" }
+                ]
+            },
+            {
+                chapter: "IV BOB. ELEKTROSTATIK MAYDON",
+                topics: [
+                    { id: 25, title: "24-mavzu. Elektr maydon kuchlanganligining superpozitsiya prinsipi", plans: ["Kuchlanganlik vektori", "Superpozitsiya prinsipi"], theory: "Zaryad atrofida hosil bo'lgan maydon kuchlanganligi vektorlar yig'indisiga teng.", formula: "\\vec{E} = \\frac{\\vec{F}}{q}, \\quad \\vec{E} = \\sum \\vec{E}_i", example: "Plastinkalar orasidagi maydon.", simType: "electric_field" },
+                    { id: 26, title: "25-mavzu. Zaryadlangan sharning elektr maydoni", plans: ["Sferik simmetriya", "Shar sirtidagi maydon"], theory: "Zaryadlangan sharning tashqarisidagi maydon xuddi markazdagi zaryadnikidek bo'ladi.", formula: "E = k\\frac{Q}{r^2}", example: "Elektrostatik generator.", simType: "sphere" },
+                    { id: 27, title: "26-mavzu. Masalalar yechish", plans: ["Kulon qonuni va kuchlanganlik"], theory: "Zaryadlar sistemasining maydonini topish.", formula: "F = k\\frac{q_1 q_2}{r^2}", example: "Nuqtaviy zaryadlar ta'siri.", simType: "problem" },
+                    { id: 28, title: "27-mavzu. Elektrostatik maydonda nuqtaviy zaryadni ko'chirishda bajarilgan ish", plans: ["Maydon ishi", "Potensiallar farqi"], theory: "Zaryadni ko'chirishda bajarilgan ish traektoriyaga bog'liq emas.", formula: "A = q(\\varphi_1 - \\varphi_2)", example: "Kondensator plastinkalari ishi.", simType: "work" },
+                    { id: 29, title: "28-mavzu. Elektr maydonda joylashgan nuqtaviy zaryadning potensial energiyasi", plans: ["Potensial energiya", "Maydon potensiali"], theory: "Elektr maydonida turgan zaryadning o'rniga bog'liq energiyasi.", formula: "W_p = q\\varphi", example: "Zarrachalar tezlatgichi.", simType: "potential" },
+                    { id: 30, title: "29-mavzu. Elektr maydon energiyasi", plans: ["Kondensator energiyasi", "Hajm zichligi"], theory: "Zaryadlangan kondensator energiyani saqlaydi.", formula: "W = \\frac{CU^2}{2}", example: "Fleshka va fotochiroq.", simType: "capacitor" },
+                    { id: 31, title: "30-mavzu. Amaliy mashg'ulot. Energiyaning bir turdan boshqasiga aylanishi", plans: ["Energiya aylanishi", "Generatorlar"], theory: "Elektrostatikada energiya saqlanish qonuni.", formula: "W_{kin} + W_{elektr} = \\text{const}", example: "Pyezo o't oldirgich.", simType: "lab" },
+                    { id: 32, title: "31-mavzu. Masalalar yechish", plans: ["Sig'im va energiya masalalari"], theory: "Kondensatorlarni ulash va hisoblash.", formula: "C = \\frac{\\varepsilon\\varepsilon_0 S}{d}", example: "Radiotexnika kondensatorlari.", simType: "problem" }
+                ]
+            },
+            {
+                chapter: "V BOB. O'ZGARMAS TOK QONUNLARI",
+                topics: [
+                    { id: 33, title: "32-mavzu. Tok kuchi va tok zichligi", plans: ["Elektr toki", "Tok kuchi va zichligi"], theory: "Zaryadlangan zarrachalarning tartibli harakati tok kuchi va zichligini hosil qiladi.", formula: "I = \\frac{q}{t}, \\quad j = \\frac{I}{S}", example: "Chiroq cho'g'lanma simidagi tok.", simType: "current" },
+                    { id: 34, title: "33-mavzu. To'liq zanjir uchun Om qonuni", plans: ["E.Yu.K. va ichki qarshilik", "To'liq zanjir qonuni"], theory: "Manbaning EYK va ichki qarshiligini hisobga olgan holda Om qonuni.", formula: "I = \\frac{\\mathcal{E}}{R+r}", example: "Akkumulyator va lampochka.", simType: "ohm" },
+                    { id: 35, title: "34-mavzu. Masalalar yechish", plans: ["Tarmoqlangan zanjirlar"], theory: "Om qonuniga doir hisob-kitoblar.", formula: "U = \\mathcal{E} - Ir", example: "Avtomobil akkumulyatori.", simType: "problem" },
+                    { id: 36, title: "35-mavzu. Laboratoriya ishi. Tok manbaining EYKi va ichki qarshiligini aniqlash", plans: ["Tajriba o'tkazish", "Grafik tuzish"], theory: "O'lchashlar yordamida manba parametrlarini topish.", formula: "\\mathcal{E} = U + Ir", example: "Laboratoriya ishi.", simType: "lab" },
+                    { id: 37, title: "36-mavzu. Metall o'tkazgichlar qarshiligining temperaturaga bog'liqligi", plans: ["Temperatura koeffitsiyenti", "O'ta o'tkazuvchanlik"], theory: "Metall qiziganda panjara tebranishi oshib qarshilik ortadi.", formula: "R = R_0(1 + \\alpha\\Delta T)", example: "Cho'g'lanma lampochka qarshiligi.", simType: "resistance" },
+                    { id: 38, title: "37-mavzu. Masalalar yechish", plans: ["Qarshilik o'zgarishi"], theory: "Temperatura ta'sirini hisoblash.", formula: "\\rho = \\rho_0(1 + \\alpha t)", example: "Qizdirgich simlari.", simType: "problem" },
+                    { id: 39, title: "Loyiha ishi: Muqobil elektr manbalari", plans: ["Quyosh batareyalari", "Shamol generatorlari"], theory: "Muqobil energiyadan tok olish.", formula: "P = UI", example: "Quyosh paneli modeli.", simType: "project" }
+                ]
+            },
+            {
+                chapter: "VI BOB. TURLI MUHITLARDA ELEKTR TOKI",
+                topics: [
+                    { id: 40, title: "38-mavzu. Suyuqliklarda elektr toki", plans: ["Elektrolitlar", "Ionlar harakati"], theory: "Suyuqliklarda tok musbat va manfiy ionlarning harakatidan iborat.", formula: "I = q_0 nvS", example: "Akkumulyator elektroliti.", simType: "liquid" },
+                    { id: 41, title: "39-mavzu. Faradeyning birinchi va ikkinchi qonuni", plans: ["Elektroliz", "Faradey qonunlari"], theory: "Elektrodda ajralgan modda massasi zaryadga proporsional.", formula: "m = kIt = \\frac{1}{F}\\frac{M}{z}It", example: "Mis bilan qoplash.", simType: "faraday" },
+                    { id: 42, title: "40-mavzu. Masalalar yechish", plans: ["Elektroliz massasini topish"], theory: "Faradey qonunlari bo'yicha masalalar.", formula: "m = kq", example: "Xromlash zavodi.", simType: "problem" },
+                    { id: 43, title: "41-mavzu. Elektrolizdan turmushda va texnikada foydalanish", plans: ["Galvanostegiya", "Metallarni tozalash"], theory: "Sanoatda elektrolizning qo'llanilishi.", formula: "W = UIt", example: "Tanga yasash.", simType: "tech" },
                     { id: 44, title: "42-mavzu. Gazlarda elektr toki. Vakuumda elektr toki", 
